@@ -42,7 +42,7 @@ export async function checkLeads(list) {
   };
 
   const body = list.map((item) => {
-    return { ...item, productCode: 'Payments' };
+    return { inn: `${item.inn}`, productCode: 'Payments' };
   });
 
   const result = await fetch(
