@@ -7,9 +7,21 @@ env.config();
 export async function check(request, response) {
   const { leads } = request.body;
 
-  console.log(request.body);
-
   const result = await checkLeads(leads);
 
-  response.send(result);
+  console.log(result);
+
+  response.send({
+    leads: result.leads.map((item) => {
+      return {
+        inn: item.inn,
+        result:
+          item.responseCode === 'NEGATIVE'
+            ? 'Нет'
+            : item.responseCode === 'POSITIVE'
+            ? 'Да'
+            : 'Хз',
+      };
+    }),
+  });
 }
