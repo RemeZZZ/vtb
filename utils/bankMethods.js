@@ -41,9 +41,11 @@ export async function checkLeads(list) {
     'Content-Type': 'application/json',
   };
 
-  const body = list.map((item) => {
-    return { inn: `${item.inn}`, productCode: 'Payments' };
-  });
+  const body = list
+    .filter((item) => item.inn.length === 12 || item.inn.length === 10)
+    .map((item) => {
+      return { inn: `${item.inn}`, productCode: 'Payments' };
+    });
 
   const result = await fetch(
     `${process.env.GW_API_URL}/smb/lecs/lead-impers/v1/check_leads`,

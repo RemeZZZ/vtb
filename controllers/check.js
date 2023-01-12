@@ -9,10 +9,18 @@ export async function check(request, response) {
   const checkedLeads = [];
 
   for (let i = 0; i < leads.length; i += 200) {
-    const result = await checkLeads(leads.slice(i, i + 200));
+    const chunk = leads.slice(i, i + 200);
 
-    checkedLeads.push(...result.leads);
+    try {
+      const result = await checkLeads(chunk);
+
+      console.log(result);
+
+      checkedLeads.push(...result.leads);
+    } catch {}
   }
+
+  console.log(checkedLeads);
 
   response.send({
     leads: checkedLeads.map((item) => {
